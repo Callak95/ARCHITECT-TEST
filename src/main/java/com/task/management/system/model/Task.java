@@ -13,7 +13,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
-    // Getters
+    // Getterss
     public Long getId() { return id; }
     public String getTitle() { return title; }
     public String getDescription() { return description; }
