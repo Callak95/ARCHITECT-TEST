@@ -1,13 +1,14 @@
 package com.task.management.system.model;
 
-import jakarta.persistence.*;
-import jakarta.transaction.Status;
-import org.springframework.data.annotation.Id;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Entity
 public class Task {
-    @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,19 +17,22 @@ public class Task {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private TaskStatus status;
 
     // Getters
     public Long getId() { return id; }
     public String getTitle() { return title; }
     public String getDescription() { return description; }
-    public Status getStatus() { return status; }
+    public TaskStatus getStatus() { return status; }
 
     // Setters
     public void setId(Long id) { this.id = id; }
     public void setTitle(String title) { this.title = title; }
     public void setDescription(String description) { this.description = description; }
-    public void setStatus(Status status) { this.status = status; }
+    public void setStatus(TaskStatus status) { this.status = status; }
 
+    // TaskStatus enum (if you don't have it already)
+    public enum TaskStatus {
+        PENDING, IN_PROGRESS, COMPLETED
     }
 }

@@ -34,7 +34,7 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
-    public List<Task> findByStatus(Task.Status status) {
+    public List<Task> findByStatus(Task.TaskStatus status) {
         return taskRepository.findByStatus(status);
     }
 

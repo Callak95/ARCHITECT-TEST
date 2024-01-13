@@ -33,7 +33,6 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
-    // Add more mappings for update and delete operations
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("task", taskService.findById(id));

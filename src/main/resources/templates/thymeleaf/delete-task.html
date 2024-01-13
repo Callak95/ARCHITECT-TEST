@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>Delete Task</title>
+</head>
+<body>
+<h1>Delete Task</h1>
+<form action="#" th:action="@{/delete-task}" method="post">
+    <p>Task ID: <input type="number" name="id" /></p>
+    <p><input type="submit" value="Delete Task" /></p>
+</form>
+<a href="/list-tasks">View Task List</a>
+</body>
+</html>
