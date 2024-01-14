@@ -1,6 +1,8 @@
 package com.task.management.system.model;
 
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Task {
@@ -9,24 +11,46 @@ public class Task {
     private Long id;
     private String title;
     private String description;
+    private String status;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
 
-    @Enumerated(EnumType.STRING)
-    private TaskStatus status;
+    public Task(String title, String description, String status, Date creationDate) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.creationDate = creationDate;
+    }
 
-    // Getterss
-    public Long getId() { return id; }
-    public String getTitle() { return title; }
-    public String getDescription() { return description; }
-    public TaskStatus getStatus() { return status; }
+    public String getTitle() {
+        return title;
+    }
 
-    // Setters
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public void setId(Long id) { this.id = id; }
-    public void setTitle(String title) { this.title = title; }
-    public void setDescription(String description) { this.description = description; }
-    public void setStatus(TaskStatus status) { this.status = status; }
+    public String getDescription() {
+        return description;
+    }
 
-    public enum TaskStatus {
-        PENDING, IN_PROGRESS, COMPLETED
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

@@ -4,7 +4,11 @@ import com.task.management.system.model.Task;
 import com.task.management.system.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class TaskService {
@@ -14,36 +18,44 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public List<Task> findAll() {
+    public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
 
-    public Task save(Task task) {
-        return taskRepository.save(task);
+    public Optional<Task> getTaskById(Long id) {
+        return taskRepository.findById(id);
     }
 
-    public Task findById(Long id) {
-        return taskRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid task Id:" + id));
+    public Task addTask(Task task) {
+        // Business Logic: Only allow task creation on weekdays
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
+            task.setCreationDate(new Date());
+            return taskRepository.save(task);
+        }
+        return null;
     }
 
-    public void update(Task task) {
-        taskRepository.save(task);
+    public Task updateTask(Long id, Task updatedTask) {
+        // Business Logic: Only update if task is 'pending'
+        return taskRepository.findById(id)
+                .filter(task -> "pending".equals(task.getStatus()))
+                .map(task -> {
+                    task.setTitle(updatedTask.getTitle());
+                    task.setDescription(updatedTask.getDescription());
+                    task.setStatus(updatedTask.getStatus());
+                    return taskRepository.save(task);
+                }).orElse(null);
     }
 
-    public void deleteById(Long id) {
-        taskRepository.deleteById(id);
+    public void deleteTask(Long id) {
+        taskRepository.findById(id).ifPresent(task -> {
+            long diffInMillies = Math.abs(new Date().getTime() - task.getCreationDate().getTime());
+            long diff = diffInMillies / (24 * 60 * 60 * 1000);
+            if (diff > 5) {
+                taskRepository.deleteById(id);
+            }
+        });
     }
-
-    public List<Task> findByStatus(Task.TaskStatus status) {
-        return taskRepository.findByStatus(status);
-    }
-
-    public List<Task> findByTitleContaining(String title) {
-        return taskRepository.findByTitleContaining(title);
-    }
-
-    public List<Task> findByDescriptionContaining(String description) {
-        return taskRepository.findByDescriptionContaining(description);
-    }
-
 }

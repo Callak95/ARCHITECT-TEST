@@ -1,1 +1,0 @@
-<script src="/js/script.js"></script> before the closing </body>
