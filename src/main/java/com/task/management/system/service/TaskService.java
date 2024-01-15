@@ -1,6 +1,6 @@
 package com.task.management.system.service;
 
-import com.task.management.system.model.Task;
+import com.task.management.system.Task;
 import com.task.management.system.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
